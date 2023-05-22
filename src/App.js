@@ -57,22 +57,22 @@ function App() {
     let receivedData = await response.json()
     alert(`${receivedData.bnbCity} has been added to DB`)
   }
-  // async function handleDetails(itemId) {
-  //   let response = await fetch(`http://localhost:5000/api/people/${itemId}`)
-  //   let receivedData = await response.json()
-  //   alert(`${receivedData[0].name}, ID: ${receivedData[0]._id}`)
-  // }
-  // async function handleRemove(itemId) {
-  //   let response = await fetch(`http://localhost:5000/api/people/${itemId}`, {
-  //     method: 'DELETE',
-  //     mode: "cors",
-  //     headers: {
-  //       "Content-Type": "application/json"
-  //     }
-  //   })
-  //   let receivedData = await response.json()
-  //   alert(`${receivedData.name} has been removed from DB`)
-  // }
+  async function handleDetails(itemId) {
+    let response = await fetch(`http://localhost:5000/bnbs/${itemId}`)
+    let receivedData = await response.json()
+    alert(`Description: ${receivedData.bnbTitle}`)
+  }
+  async function handleRemove(itemId) {
+    let response = await fetch(`http://localhost:5000/bnbs/${itemId}`, {
+      method: 'DELETE',
+      mode: "cors",
+      headers: {
+        "Content-Type": "application/json"
+      }
+    })
+    let receivedData = await response.json()
+    alert(`${receivedData.bnbCity} has been removed from DB`)
+  }
   useEffect(() => {
     async function getData() {
       let response = await fetch('http://localhost:5000/bnbs/')
@@ -81,7 +81,7 @@ function App() {
     }
     getData()
   }, [])
-  let result = bnbs.map(item => <Bnbs key={item._id} {...item} />)
+  let result = bnbs.map(item => <Bnbs key={item._id} {...item} getDetails={handleDetails} remove={handleRemove} />)
   return (
     <div>
       <form onSubmit={handleSubmit}>
