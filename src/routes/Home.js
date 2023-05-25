@@ -7,7 +7,7 @@ import { AppContext } from "../state/context"
 // import { doc, getDoc, addDoc, deleteDoc, collection, query, where, getDocs } from "firebase/firestore"
 // import { ref, deleteObject } from "firebase/storage"
 import VacationRental from "../components/VacationRental"
-// import ShoppingCart from "../components/ShoppingCart"
+//import ShoppingCart from "../components/ShoppingCart"
 import Form from "../components/Form"
 
 function Home() {
