@@ -1,0 +1,47 @@
+.button {
+    border-radius: 5px;
+    width: 100px;
+    height: 30px;
+    font-weight: bold;
+    cursor: pointer;
+}
+.button:hover {
+    background-color: darkgray;
+    color: whitesmoke;
+}
+.delete {
+    border-radius: 5px;
+    width: 50px;
+    height: 30px;
+    font-weight: bold;
+    cursor: pointer;
+}
+.delete:hover {
+    background-color: darkgray;
+    color: whitesmoke;
+}
+.btn {
+    border: 1px solid maroon;
+    background-color: lightgray;
+    color: maroon;
+    font-weight: bold;
+    font-size: 1.5rem;
+    text-decoration: none;
+    padding: 10px 20px;
+    cursor: pointer;
+}
+.btn:hover {
+    background-color: darkgray;
+}
+.google {
+    border-radius: 5px;
+    color: blue;
+    width: 200px;
+    height: 30px;
+    font-weight: bold;
+    cursor: pointer;
+}
+.google:hover {
+    background-color: darkgray;
+    color: whitesmoke;
+}
