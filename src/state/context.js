@@ -1,5 +1,4 @@
-//import { useState, useEffect, createContext } from "react"
-import { useState, createContext } from "react"
+import { useState, useEffect, createContext } from "react"
 // import { db, auth } from "../firebase/firebase-config"
 // import { onAuthStateChanged } from "firebase/auth"
 // import { collection, onSnapshot, query, where } from "firebase/firestore"
@@ -31,6 +30,14 @@ function AppContextProvider({children}) {
   //     }
   //   })
   // }, [])
+  useEffect(() => {
+    async function getBnbs() {
+      let response = await fetch('http://localhost:5000/bnbs/')
+      let receivedData = await response.json()
+      setBnbs(receivedData)
+    }
+    getBnbs()
+  }, [])
   // useEffect(() => {
   //   let bnbsCollectionRef = collection(db, "bnbs")
   //   let getBnbs = async () => {

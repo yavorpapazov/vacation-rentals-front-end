@@ -39,7 +39,8 @@ function Form() {
       bnbCity,
       bnbCountry,
       bnbCost,
-      bnbImage: imageFile
+      bnbImage: imageFile,
+      stars: 4.5
     }
     setBnbTitle('')
     setBnbCity('')

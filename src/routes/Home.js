@@ -6,7 +6,7 @@ import { AppContext } from "../state/context"
 // import { onAuthStateChanged } from "firebase/auth"
 // import { doc, getDoc, addDoc, deleteDoc, collection, query, where, getDocs } from "firebase/firestore"
 // import { ref, deleteObject } from "firebase/storage"
-// import VacationRental from "../components/VacationRental"
+import VacationRental from "../components/VacationRental"
 // import ShoppingCart from "../components/ShoppingCart"
 import Form from "../components/Form"
 
@@ -60,6 +60,14 @@ function Home() {
   //     alert('Please log in to add or delete vacation rentals.')
   //   }
   // }
+  let resultVacationRental = contextData.bnbs.map(item => <VacationRental 
+    key={item._id} 
+    bnb={item} 
+    // manageCart={handleAddToCart} 
+    // deleteBnb={handleDelete} 
+    action="Add to Cart" 
+    showDelete={true}
+  />)
   // let resultVacationRental = contextData.bnbs.map(item => <VacationRental 
   //   key={item.id} 
   //   bnb={item} 
@@ -73,11 +81,11 @@ function Home() {
       {contextData.isShoppingCartDisplayed && <div className={classes.backdrop} />}
       <Form />
       {/* {userEmail !== null && <Form />}
-      {userEmail !== null && <h3>User logged in: {userEmail}</h3>}
+      {userEmail !== null && <h3>User logged in: {userEmail}</h3>} */}
       <div className={classes["grid-container"]}>
         {resultVacationRental}
       </div>
-      {contextData.isShoppingCartDisplayed && 
+      {/* {contextData.isShoppingCartDisplayed && 
       <div className={classes.modal}>
         <ShoppingCart />
       </div>} */}
