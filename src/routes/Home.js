@@ -25,6 +25,30 @@ function Home() {
   //     }
   //   })
   // }, [])
+  async function handleAddToCart(bnbId) {
+    let bnb = await fetch(`http://localhost:5000/bnbs/${bnbId}`)
+    let receivedData = await bnb.json()
+
+    let cartObj = {
+      bnbTitle: receivedData.bnbTitle,
+      bnbCity: receivedData.bnbCity,
+      bnbCountry: receivedData.bnbCountry,
+      bnbCost: receivedData.bnbCost,
+      bnbImage: receivedData.bnbImage,
+      stars: receivedData.stars
+    }
+    let response = await fetch('http://localhost:5000/cart', {
+      method: 'POST',
+      mode: "cors",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+        "Access-Control-Allow-Origin": "*"
+      },
+      body: JSON.stringify(cartObj)
+    })
+    let data = await response.json()
+  }
   // async function handleAddToCart(bnbId) {
   //   let addDocRef = doc(db, "bnbs", bnbId)
   //   let docSnap = await getDoc(addDocRef)
@@ -63,7 +87,7 @@ function Home() {
   let resultVacationRental = contextData.bnbs.map(item => <VacationRental 
     key={item._id} 
     bnb={item} 
-    // manageCart={handleAddToCart} 
+    manageCart={handleAddToCart} 
     // deleteBnb={handleDelete} 
     action="Add to Cart" 
     showDelete={true}
