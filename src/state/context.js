@@ -38,6 +38,14 @@ function AppContextProvider({children}) {
     }
     getBnbs()
   }, [])
+  useEffect(() => {
+    async function getCart() {
+      let response = await fetch('http://localhost:5000/cart/')
+      let receivedData = await response.json()
+      setCart(receivedData)
+    }
+    getCart()
+  }, [])
   // useEffect(() => {
   //   let bnbsCollectionRef = collection(db, "bnbs")
   //   let getBnbs = async () => {

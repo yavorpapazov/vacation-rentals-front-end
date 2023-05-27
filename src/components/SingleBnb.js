@@ -7,13 +7,13 @@ import { useParams } from "react-router-dom"
 // import { doc, getDoc, addDoc, collection, query, where, getDocs } from "firebase/firestore"
 import { AiFillStar } from "react-icons/ai"
 import Button from "../ui/Button"
-//import ShoppingCart from "./ShoppingCart"
+import ShoppingCart from "./ShoppingCart"
 
 function SingleBnb() {
   let params = useParams()
   let [singleBnb, setSingleBnb] = useState({})
   //let [userId, setUserId] = useState(null)
-  //let contextData = useContext(AppContext)
+  let contextData = useContext(AppContext)
   // useEffect(() => {
   //   onAuthStateChanged(auth, currentUser => {
   //     if(currentUser) {
@@ -24,6 +24,29 @@ function SingleBnb() {
   //   })
   // }, [])
   async function handleAddToCart(bnbId) {
+    let bnb = await fetch(`http://localhost:5000/bnbs/${bnbId}`)
+    let receivedData = await bnb.json()
+    let cartObj = {
+      bnbTitle: receivedData.bnbTitle,
+      bnbCity: receivedData.bnbCity,
+      bnbCountry: receivedData.bnbCountry,
+      bnbCost: receivedData.bnbCost,
+      bnbImage: receivedData.bnbImage,
+      stars: receivedData.stars
+    }
+    let response = await fetch('http://localhost:5000/cart', {
+      method: 'POST',
+      mode: "cors",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+        "Access-Control-Allow-Origin": "*"
+      },
+      body: JSON.stringify(cartObj)
+    })
+    let data = await response.json()
+  }
+  // async function handleAddToCart(bnbId) {
   //   let addDocRef = doc(db, "bnbs", bnbId)
   //   let docSnap = await getDoc(addDocRef)
   //   let q = query(collection(db, "cart"), where("addedToCartBy", "==", userId), where("bnbId", "==", bnbId))
@@ -37,7 +60,7 @@ function SingleBnb() {
   //     return
   //   }
   //   await addDoc(collection(db, "cart"), {...docSnap.data(), addedToCartBy: userId, bnbId: bnbId})
-  }
+  // }
   useEffect(() => {
     async function getBnb() {
       let response = await fetch(`http://localhost:5000/bnbs/${params.id}`)
@@ -57,7 +80,7 @@ function SingleBnb() {
   return (
     <div className={classes.container}>
       <h1>Single Bnb</h1>
-      {/* {contextData.isShoppingCartDisplayed && <div className={classes.backdrop} />} */}
+      {contextData.isShoppingCartDisplayed && <div className={classes.backdrop} />}
       <div className={classes["image-div"]}>
         <img src={singleBnb.bnbImage} alt={singleBnb.bnbTitle} />
       </div>
@@ -72,10 +95,10 @@ function SingleBnb() {
           <Button addClass="button" onClick={() => handleAddToCart(params.id)}>Add to Cart</Button>
         </div>
       </div>
-      {/* {contextData.isShoppingCartDisplayed && 
+      {contextData.isShoppingCartDisplayed && 
       <div className={classes.modal}>
         <ShoppingCart />
-      </div>} */}
+      </div>}
     </div>
   )
 }

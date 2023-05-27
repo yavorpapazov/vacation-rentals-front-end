@@ -6,9 +6,9 @@ import { AppContext } from "../state/context"
 // import { onAuthStateChanged } from "firebase/auth"
 // import { doc, getDoc, addDoc, deleteDoc, collection, query, where, getDocs } from "firebase/firestore"
 // import { ref, deleteObject } from "firebase/storage"
-import VacationRental from "../components/VacationRental"
-//import ShoppingCart from "../components/ShoppingCart"
 import Form from "../components/Form"
+import VacationRental from "../components/VacationRental"
+import ShoppingCart from "../components/ShoppingCart"
 
 function Home() {
   let contextData = useContext(AppContext)
@@ -28,7 +28,6 @@ function Home() {
   async function handleAddToCart(bnbId) {
     let bnb = await fetch(`http://localhost:5000/bnbs/${bnbId}`)
     let receivedData = await bnb.json()
-
     let cartObj = {
       bnbTitle: receivedData.bnbTitle,
       bnbCity: receivedData.bnbCity,
@@ -48,6 +47,17 @@ function Home() {
       body: JSON.stringify(cartObj)
     })
     let data = await response.json()
+  }
+  async function handleDelete(bnbId) {
+    let response = await fetch(`http://localhost:5000/bnbs/${bnbId}`, {
+      method: 'DELETE',
+      mode: "cors",
+      headers: {
+        "Content-Type": "application/json"
+      }
+    })
+    let receivedData = await response.json()
+    //alert(`${receivedData.bnbCity} has been removed from DB`)
   }
   // async function handleAddToCart(bnbId) {
   //   let addDocRef = doc(db, "bnbs", bnbId)
@@ -88,7 +98,7 @@ function Home() {
     key={item._id} 
     bnb={item} 
     manageCart={handleAddToCart} 
-    // deleteBnb={handleDelete} 
+    deleteBnb={handleDelete} 
     action="Add to Cart" 
     showDelete={true}
   />)
@@ -109,10 +119,10 @@ function Home() {
       <div className={classes["grid-container"]}>
         {resultVacationRental}
       </div>
-      {/* {contextData.isShoppingCartDisplayed && 
+      {contextData.isShoppingCartDisplayed && 
       <div className={classes.modal}>
         <ShoppingCart />
-      </div>} */}
+      </div>}
     </div>
   );
 }
