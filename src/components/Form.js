@@ -1,11 +1,13 @@
 import classes from "./Form.module.css"
-import { useState } from "react"
+import { useState, useContext } from "react"
+import { AppContext } from "../state/context"
 // import { db, storage, auth } from "../firebase/firebase-config"
 // import { collection, addDoc } from "firebase/firestore"
 // import { ref, uploadBytes, getDownloadURL } from "firebase/storage"
 import Button from "../ui/Button"
 
 function Form() {
+  let contextData = useContext(AppContext)
   let [bnbTitle, setBnbTitle] = useState('')
   let [bnbCity, setBnbCity] = useState('')
   let [bnbCountry, setBnbCountry] = useState('')
@@ -42,23 +44,12 @@ function Form() {
       bnbImage: imageFile,
       stars: 4.5
     }
+    contextData.handleAddBnb(userInputObj)
     setBnbTitle('')
     setBnbCity('')
     setBnbCountry('')
     setBnbCost('')
     setImageInput('')
-    let response = await fetch('http://localhost:5000/bnbs', {
-      method: 'POST',
-      mode: "cors",
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-        "Access-Control-Allow-Origin": "*"
-      },
-      body: JSON.stringify(userInputObj)
-    })
-    let receivedData = await response.json()
-    alert(`${receivedData.bnbCity} has been added to DB`)
   }
   // let [title, setTitle] = useState('')
   // let [city, setCity] = useState('')

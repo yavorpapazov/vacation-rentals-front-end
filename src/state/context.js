@@ -9,12 +9,31 @@ function AppContextProvider({children}) {
   let [bnbs, setBnbs] = useState([])
   let [isShoppingCartDisplayed, setIsShoppingCartDisplayed] = useState(false)
   //let [userAddedToCartId, setUserAddedToCartId] = useState(null)
-  function handleBnbs(result) {
-    setBnbs(result)
+  async function handleAddBnb(userInputObj) {
+    //let response = await fetch('http://localhost:5000/bnbs', {
+    await fetch('http://localhost:5000/bnbs', {
+      method: 'POST',
+      mode: "cors",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+        "Access-Control-Allow-Origin": "*"
+      },
+      body: JSON.stringify(userInputObj)
+    })
+    let response = await fetch('http://localhost:5000/bnbs/')
+    let receivedData = await response.json()
+    setBnbs(receivedData)
+    // let receivedData = await response.json()
+    // console.log(receivedData)
+    // alert(`${receivedData.bnbCity} has been added to DB`)
   }
-  function handleCart(result) {
-    setCart(result)
-  }
+  // function handleBnbs(result) {
+  //   setBnbs(result)
+  // }
+  // function handleCart(result) {
+  //   setCart(result)
+  // }
   function handleDisplayCart() {
     setIsShoppingCartDisplayed(true)
   }
@@ -68,9 +87,10 @@ function AppContextProvider({children}) {
   //   getCart()
   // }, [userAddedToCartId])
   let contextValue = {
+    handleAddBnb,
     isShoppingCartDisplayed,
-    handleBnbs,
-    handleCart,
+    // handleBnbs,
+    // handleCart,
     bnbs,
     cart,
     handleDisplayCart,
