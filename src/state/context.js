@@ -10,7 +10,6 @@ function AppContextProvider({children}) {
   let [isShoppingCartDisplayed, setIsShoppingCartDisplayed] = useState(false)
   //let [userAddedToCartId, setUserAddedToCartId] = useState(null)
   async function handleAddBnb(userInputObj) {
-    //let response = await fetch('http://localhost:5000/bnbs', {
     await fetch('http://localhost:5000/bnbs', {
       method: 'POST',
       mode: "cors",
@@ -24,9 +23,55 @@ function AppContextProvider({children}) {
     let response = await fetch('http://localhost:5000/bnbs/')
     let receivedData = await response.json()
     setBnbs(receivedData)
-    // let receivedData = await response.json()
-    // console.log(receivedData)
-    // alert(`${receivedData.bnbCity} has been added to DB`)
+  }
+  async function handleDelete(bnbId) {
+    await fetch(`http://localhost:5000/bnbs/${bnbId}`, {
+      method: 'DELETE',
+      mode: "cors",
+      headers: {
+        "Content-Type": "application/json"
+      }
+    })
+    let response = await fetch('http://localhost:5000/bnbs/')
+    let receivedData = await response.json()
+    setBnbs(receivedData)
+  }
+  async function handleAddToCart(bnbId) {
+    let bnb = await fetch(`http://localhost:5000/bnbs/${bnbId}`)
+    let receivedData = await bnb.json()
+    let cartObj = {
+      bnbTitle: receivedData.bnbTitle,
+      bnbCity: receivedData.bnbCity,
+      bnbCountry: receivedData.bnbCountry,
+      bnbCost: receivedData.bnbCost,
+      bnbImage: receivedData.bnbImage,
+      stars: receivedData.stars
+    }
+    await fetch('http://localhost:5000/cart', {
+      method: 'POST',
+      mode: "cors",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+        "Access-Control-Allow-Origin": "*"
+      },
+      body: JSON.stringify(cartObj)
+    })
+    let response = await fetch('http://localhost:5000/cart/')
+    let receivedCart = await response.json()
+    setCart(receivedCart)
+  }
+  async function handleRemoveFromCart(bnbId) {
+    await fetch(`http://localhost:5000/cart/${bnbId}`, {
+      method: 'DELETE',
+      mode: "cors",
+      headers: {
+        "Content-Type": "application/json"
+      }
+    })
+    let response = await fetch('http://localhost:5000/cart/')
+    let receivedCart = await response.json()
+    setCart(receivedCart)
   }
   // function handleBnbs(result) {
   //   setBnbs(result)
@@ -88,11 +133,14 @@ function AppContextProvider({children}) {
   // }, [userAddedToCartId])
   let contextValue = {
     handleAddBnb,
-    isShoppingCartDisplayed,
+    handleDelete,
+    handleAddToCart,
+    handleRemoveFromCart,
     // handleBnbs,
     // handleCart,
     bnbs,
     cart,
+    isShoppingCartDisplayed,
     handleDisplayCart,
     handleCloseCart
   }

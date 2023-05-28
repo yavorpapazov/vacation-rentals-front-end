@@ -8,17 +8,6 @@ import Button from "../ui/Button"
 
 function ShoppingCart() {
   let contextData = useContext(AppContext)
-  async function handleRemoveFromCart(bnbId) {
-    let response = await fetch(`http://localhost:5000/cart/${bnbId}`, {
-      method: 'DELETE',
-      mode: "cors",
-      headers: {
-        "Content-Type": "application/json"
-      }
-    })
-    let receivedData = await response.json()
-    //alert(`${receivedData.bnbCity} has been removed from DB`)
-  }
   // async function handleRemoveFromCart(bnbId) {
   //   let deleteCartDocRef = doc(db, "cart", bnbId)
   //   await deleteDoc(deleteCartDocRef)
@@ -27,7 +16,7 @@ function ShoppingCart() {
   let resultShoppingCartItems = contextData.cart.map(item => <VacationRental 
     key={item._id} 
     bnb={item} 
-    manageCart={handleRemoveFromCart} 
+    manageCart={contextData.handleRemoveFromCart} 
     action="Remove"
     showDelete={false}
   />)

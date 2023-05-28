@@ -23,29 +23,6 @@ function SingleBnb() {
   //     }
   //   })
   // }, [])
-  async function handleAddToCart(bnbId) {
-    let bnb = await fetch(`http://localhost:5000/bnbs/${bnbId}`)
-    let receivedData = await bnb.json()
-    let cartObj = {
-      bnbTitle: receivedData.bnbTitle,
-      bnbCity: receivedData.bnbCity,
-      bnbCountry: receivedData.bnbCountry,
-      bnbCost: receivedData.bnbCost,
-      bnbImage: receivedData.bnbImage,
-      stars: receivedData.stars
-    }
-    let response = await fetch('http://localhost:5000/cart', {
-      method: 'POST',
-      mode: "cors",
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-        "Access-Control-Allow-Origin": "*"
-      },
-      body: JSON.stringify(cartObj)
-    })
-    let data = await response.json()
-  }
   // async function handleAddToCart(bnbId) {
   //   let addDocRef = doc(db, "bnbs", bnbId)
   //   let docSnap = await getDoc(addDocRef)
@@ -92,7 +69,7 @@ function SingleBnb() {
       <div className={classes.cost}>
         <h3>Cost: ${singleBnb.bnbCost}</h3>
         <div>
-          <Button addClass="button" onClick={() => handleAddToCart(params.id)}>Add to Cart</Button>
+          <Button addClass="button" onClick={() => contextData.handleAddToCart(params.id)}>Add to Cart</Button>
         </div>
       </div>
       {contextData.isShoppingCartDisplayed && 
