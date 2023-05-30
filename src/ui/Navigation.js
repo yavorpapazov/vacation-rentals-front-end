@@ -52,9 +52,9 @@ function Navigation() {
               <Button addClass="btn" onClick={handleLogout}>Log out</Button>
             </div>} */}
           </div>
-          {/* {userId === null && <div>
+          {/* {userId === null && <div> */}
             <LinkButton addClass="border" to="/register">Register</LinkButton>
-          </div>} */}
+          {/* </div>} */}
         </div>
       </nav>
     </header>

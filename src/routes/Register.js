@@ -1,7 +1,7 @@
 import classes from "./Register.module.css"
 import { useState } from "react"
-import { auth } from "../firebase/firebase-config"
-import { createUserWithEmailAndPassword } from "firebase/auth"
+// import { auth } from "../firebase/firebase-config"
+// import { createUserWithEmailAndPassword } from "firebase/auth"
 import { useNavigate } from "react-router-dom"
 import Button from "../ui/Button"
 
@@ -18,7 +18,17 @@ function Register() {
   async function handleRegister(e) {
     e.preventDefault()
     try {
-      await createUserWithEmailAndPassword(auth, registerEmail, registerPassword)
+      await fetch('http://localhost:5000/login/signup', {
+      method: 'POST',
+      mode: "cors",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+        "Access-Control-Allow-Origin": "*"
+      },
+      body: JSON.stringify({email: registerEmail, password: registerPassword})
+    })
+      //await createUserWithEmailAndPassword(auth, registerEmail, registerPassword)
       setRegisterEmail('')
       setRegisterPassword('')
       navigate("/")
