@@ -45,10 +45,10 @@ function Navigation() {
                 <AiOutlineShoppingCart size="2em" />
               </div>
             </div>
-            {/* {userId === null && <div>
+            {/* {userId === null && <div> */}
               <LinkButton addClass="border" to="/login">Log In</LinkButton>
-            </div>}
-            {userId !== null && <div>
+            {/* </div>} */}
+            {/* {userId !== null && <div>
               <Button addClass="btn" onClick={handleLogout}>Log out</Button>
             </div>} */}
           </div>

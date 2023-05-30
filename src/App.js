@@ -2,7 +2,7 @@ import { Routes, Route } from "react-router-dom"
 import Layout from "./routes/Layout"
 import Home from "./routes/Home"
 import SingleBnb from "./components/SingleBnb"
-// import Login from "./routes/Login"
+import Login from "./routes/Login"
 import Register from "./routes/Register"
 // import ErrorPage from "./routes/ErrorPage"
 
@@ -12,7 +12,7 @@ function App() {
       <Route path="/" element={<Layout />}>
         <Route index element={<Home />} />
         <Route path="/bnbs/:id" element={<SingleBnb />} />
-        {/* <Route path="/login" element={<Login />} /> */}
+        <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
       </Route>
       {/* <Route path="*" element={<ErrorPage />} /> */}

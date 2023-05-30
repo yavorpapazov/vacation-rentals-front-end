@@ -1,7 +1,7 @@
 import classes from "./Login.module.css"
 import { useState } from "react"
-import { auth, googleProvider } from "../firebase/firebase-config"
-import { signInWithEmailAndPassword, signInWithPopup } from "firebase/auth"
+// import { auth, googleProvider } from "../firebase/firebase-config"
+// import { signInWithEmailAndPassword, signInWithPopup } from "firebase/auth"
 import { useNavigate } from "react-router-dom"
 import Button from "../ui/Button"
 
@@ -18,7 +18,20 @@ function Login() {
   async function handleLogin(e) {
     e.preventDefault()
     try {
-      await signInWithEmailAndPassword(auth, email, password)
+      const response = await fetch('http://localhost:5000/login', {
+      method: 'POST',
+      mode: "cors",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+        "Access-Control-Allow-Origin": "*"
+      },
+      body: JSON.stringify({email, password})
+    })
+      console.log(response)
+      let responseData = await response.json()
+      console.log(responseData)
+      //await signInWithEmailAndPassword(auth, email, password)
       setEmail('')
       setPassword('')
       navigate("/")
@@ -27,14 +40,6 @@ function Login() {
       setEmail('')
       setPassword('')
     }
-  }
-  async function handleSigninWithGoogle() {
-    try {
-      await signInWithPopup(auth, googleProvider)
-    } catch(err) {
-      alert(err.message)
-    }
-    navigate("/")
   }
   return (
     <div className={classes.login}>
@@ -53,9 +58,6 @@ function Login() {
           <Button addClass="button">Log in</Button>
         </div>
       </form>
-      <div>
-        <Button addClass="google" onClick={handleSigninWithGoogle}>Sign In With Google</Button>
-      </div>
     </div>
   )
 }
