@@ -1,11 +1,13 @@
 import classes from "./Login.module.css"
-import { useState } from "react"
+import { useState, useContext } from "react"
+import { AppContext } from "../state/context"
 // import { auth, googleProvider } from "../firebase/firebase-config"
 // import { signInWithEmailAndPassword, signInWithPopup } from "firebase/auth"
 import { useNavigate } from "react-router-dom"
 import Button from "../ui/Button"
 
 function Login() {
+  let contextData = useContext(AppContext)
   let [email, setEmail] = useState('')
   let [password, setPassword] = useState('')
   let navigate = useNavigate()
@@ -15,22 +17,10 @@ function Login() {
   function handlePassword(e) {
     setPassword(e.target.value)
   }
-  async function handleLogin(e) {
+  function handleLogin(e) {
     e.preventDefault()
     try {
-      const response = await fetch('http://localhost:5000/login', {
-      method: 'POST',
-      mode: "cors",
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-        "Access-Control-Allow-Origin": "*"
-      },
-      body: JSON.stringify({email, password})
-    })
-      console.log(response)
-      let responseData = await response.json()
-      console.log(responseData)
+      contextData.handleUserLogin(email, password)
       //await signInWithEmailAndPassword(auth, email, password)
       setEmail('')
       setPassword('')

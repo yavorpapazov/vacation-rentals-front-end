@@ -5,10 +5,26 @@ import { useState, useEffect, createContext } from "react"
 
 let AppContext = createContext()
 function AppContextProvider({children}) {
+  let [currentUser, setCurrentUser] = useState({})
   let [cart, setCart] = useState([])
   let [bnbs, setBnbs] = useState([])
   let [isShoppingCartDisplayed, setIsShoppingCartDisplayed] = useState(false)
   //let [userAddedToCartId, setUserAddedToCartId] = useState(null)
+  async function handleUserLogin(email, password) {
+    const response = await fetch('http://localhost:5000/login', {
+      method: 'POST',
+      mode: "cors",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+        "Access-Control-Allow-Origin": "*"
+      },
+      body: JSON.stringify({email, password})
+    })
+    let responseData = await response.json()
+    setCurrentUser(responseData)
+  }
+  console.log(currentUser)
   async function handleAddBnb(userInputObj) {
     await fetch('http://localhost:5000/bnbs', {
       method: 'POST',
@@ -132,6 +148,8 @@ function AppContextProvider({children}) {
   //   getCart()
   // }, [userAddedToCartId])
   let contextValue = {
+    handleUserLogin,
+    currentUser,
     handleAddBnb,
     handleDelete,
     handleAddToCart,

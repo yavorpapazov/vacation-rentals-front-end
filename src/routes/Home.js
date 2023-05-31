@@ -12,6 +12,7 @@ import ShoppingCart from "../components/ShoppingCart"
 
 function Home() {
   let contextData = useContext(AppContext)
+  console.log(contextData.currentUser)
   // let [userEmail, setUserEmail] = useState(null)
   // let [userId, setUserId] = useState(null)
   // useEffect(() => {
