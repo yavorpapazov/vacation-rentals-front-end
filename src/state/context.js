@@ -5,7 +5,7 @@ import { useState, useEffect, createContext } from "react"
 
 let AppContext = createContext()
 function AppContextProvider({children}) {
-  let [currentUser, setCurrentUser] = useState({})
+  let [currentUser, setCurrentUser] = useState(JSON.parse(localStorage.getItem('user')))
   let [cart, setCart] = useState([])
   let [bnbs, setBnbs] = useState([])
   let [isShoppingCartDisplayed, setIsShoppingCartDisplayed] = useState(false)
@@ -24,12 +24,29 @@ function AppContextProvider({children}) {
     let responseData = await response.json()
     setCurrentUser(responseData)
   }
-  console.log(currentUser)
+  async function handleUserLogout() {
+    await fetch('http://localhost:5000/login/logout', {
+      method: 'POST',
+      mode: "cors",
+      headers: {
+        Authorization: currentUser.token,
+        "Content-Type": "application/json",
+        Accept: "application/json",
+        "Access-Control-Allow-Origin": "*"
+      }
+      //body: JSON.stringify({})
+    })
+    //let responseData = await response.json()
+    //console.log(responseData)
+    localStorage.clear()
+    setCurrentUser(null)
+  }
   async function handleAddBnb(userInputObj) {
     await fetch('http://localhost:5000/bnbs', {
       method: 'POST',
       mode: "cors",
       headers: {
+        Authorization: currentUser.token,
         "Content-Type": "application/json",
         Accept: "application/json",
         "Access-Control-Allow-Origin": "*"
@@ -111,6 +128,9 @@ function AppContextProvider({children}) {
   //   })
   // }, [])
   useEffect(() => {
+    localStorage.setItem('user', JSON.stringify(currentUser))
+  }, [currentUser])
+  useEffect(() => {
     async function getBnbs() {
       let response = await fetch('http://localhost:5000/bnbs/')
       let receivedData = await response.json()
@@ -149,6 +169,7 @@ function AppContextProvider({children}) {
   // }, [userAddedToCartId])
   let contextValue = {
     handleUserLogin,
+    handleUserLogout,
     currentUser,
     handleAddBnb,
     handleDelete,

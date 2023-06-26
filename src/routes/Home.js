@@ -1,5 +1,4 @@
 import classes from "./Home.module.css"
-//import { useContext, useState, useEffect } from "react"
 import { useContext } from "react"
 import { AppContext } from "../state/context"
 // import { db, storage, auth } from "../firebase/firebase-config"
@@ -12,9 +11,12 @@ import ShoppingCart from "../components/ShoppingCart"
 
 function Home() {
   let contextData = useContext(AppContext)
-  console.log(contextData.currentUser)
   // let [userEmail, setUserEmail] = useState(null)
   // let [userId, setUserId] = useState(null)
+  // useEffect(() => {
+  //   const user = JSON.parse(localStorage.getItem('user'))
+  //   console.log(user)
+  // }, [])
   // useEffect(() => {
   //   onAuthStateChanged(auth, currentUser => {
   //     if(currentUser) {
@@ -80,9 +82,8 @@ function Home() {
   return (
     <div className={classes.container}>
       {contextData.isShoppingCartDisplayed && <div className={classes.backdrop} />}
-      <Form />
-      {/* {userEmail !== null && <Form />}
-      {userEmail !== null && <h3>User logged in: {userEmail}</h3>} */}
+      {contextData.currentUser?.userEmail && <Form />}
+      {contextData.currentUser?.userEmail && <h3>User logged in: {contextData.currentUser?.userEmail}</h3>}
       <div className={classes["grid-container"]}>
         {resultVacationRental}
       </div>
