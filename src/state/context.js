@@ -10,6 +10,18 @@ function AppContextProvider({children}) {
   let [bnbs, setBnbs] = useState([])
   let [isShoppingCartDisplayed, setIsShoppingCartDisplayed] = useState(false)
   //let [userAddedToCartId, setUserAddedToCartId] = useState(null)
+  async function handleUserRegister(registerEmail, registerPassword) {
+    await fetch('http://localhost:5000/login/signup', {
+      method: 'POST',
+      mode: "cors",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+        "Access-Control-Allow-Origin": "*"
+      },
+      body: JSON.stringify({email: registerEmail, password: registerPassword})
+    })
+  }
   async function handleUserLogin(email, password) {
     const response = await fetch('http://localhost:5000/login', {
       method: 'POST',
@@ -62,6 +74,7 @@ function AppContextProvider({children}) {
       method: 'DELETE',
       mode: "cors",
       headers: {
+        Authorization: currentUser.token,
         "Content-Type": "application/json"
       }
     })
@@ -168,6 +181,7 @@ function AppContextProvider({children}) {
   //   getCart()
   // }, [userAddedToCartId])
   let contextValue = {
+    handleUserRegister,
     handleUserLogin,
     handleUserLogout,
     currentUser,

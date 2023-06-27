@@ -40,7 +40,6 @@ function Navigation() {
   // }
   return (
     <header className={classes.header}>
-      <div>Navigation</div>
       <nav className={classes.navbar}>
         <div>
           <LinkButton to="/">Home</LinkButton>

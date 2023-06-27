@@ -56,7 +56,6 @@ function SingleBnb() {
   // }, [params.id])
   return (
     <div className={classes.container}>
-      <h1>Single Bnb</h1>
       {contextData.isShoppingCartDisplayed && <div className={classes.backdrop} />}
       <div className={classes["image-div"]}>
         <img src={singleBnb.bnbImage} alt={singleBnb.bnbTitle} />

@@ -1,11 +1,13 @@
 import classes from "./Register.module.css"
-import { useState } from "react"
+import { useContext, useState } from "react"
+import { AppContext } from "../state/context"
 // import { auth } from "../firebase/firebase-config"
 // import { createUserWithEmailAndPassword } from "firebase/auth"
 import { useNavigate } from "react-router-dom"
 import Button from "../ui/Button"
 
 function Register() {
+  let contextData = useContext(AppContext)
   let [registerEmail, setRegisterEmail] = useState('')
   let [registerPassword, setRegisterPassword] = useState('')
   let navigate = useNavigate()
@@ -18,16 +20,7 @@ function Register() {
   async function handleRegister(e) {
     e.preventDefault()
     try {
-      await fetch('http://localhost:5000/login/signup', {
-      method: 'POST',
-      mode: "cors",
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-        "Access-Control-Allow-Origin": "*"
-      },
-      body: JSON.stringify({email: registerEmail, password: registerPassword})
-    })
+      contextData.handleUserRegister(registerEmail, registerPassword)
       //await createUserWithEmailAndPassword(auth, registerEmail, registerPassword)
       setRegisterEmail('')
       setRegisterPassword('')
