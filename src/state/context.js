@@ -65,7 +65,7 @@ function AppContextProvider({children}) {
       },
       body: JSON.stringify(userInputObj)
     })
-    let response = await fetch('http://localhost:5000/bnbs/')
+    let response = await fetch('http://localhost:5000/bnbs')
     let receivedData = await response.json()
     setBnbs(receivedData)
   }
@@ -78,32 +78,42 @@ function AppContextProvider({children}) {
         "Content-Type": "application/json"
       }
     })
-    let response = await fetch('http://localhost:5000/bnbs/')
+    let response = await fetch('http://localhost:5000/bnbs')
     let receivedData = await response.json()
     setBnbs(receivedData)
   }
   async function handleAddToCart(bnbId) {
-    let bnb = await fetch(`http://localhost:5000/bnbs/${bnbId}`)
-    let receivedData = await bnb.json()
-    let cartObj = {
-      bnbTitle: receivedData.bnbTitle,
-      bnbCity: receivedData.bnbCity,
-      bnbCountry: receivedData.bnbCountry,
-      bnbCost: receivedData.bnbCost,
-      bnbImage: receivedData.bnbImage,
-      stars: receivedData.stars
-    }
+    // let bnb = await fetch(`http://localhost:5000/bnbs/${bnbId}`)
+    // let receivedData = await bnb.json()
+    // let cartObj = {
+    //   bnbTitle: receivedData.bnbTitle,
+    //   bnbCity: receivedData.bnbCity,
+    //   bnbCountry: receivedData.bnbCountry,
+    //   bnbCost: receivedData.bnbCost,
+    //   bnbImage: receivedData.bnbImage,
+    //   stars: receivedData.stars
+    // }
     await fetch('http://localhost:5000/cart', {
       method: 'POST',
       mode: "cors",
       headers: {
+        Authorization: currentUser.token,
         "Content-Type": "application/json",
         Accept: "application/json",
         "Access-Control-Allow-Origin": "*"
       },
-      body: JSON.stringify(cartObj)
+      body: JSON.stringify({ itemId: bnbId })
     })
-    let response = await fetch('http://localhost:5000/cart/')
+    let response = await fetch('http://localhost:5000/cart', {
+      method: 'GET',
+      mode: "cors",
+      headers: {
+        Authorization: currentUser.token,
+        "Content-Type": "application/json",
+        Accept: "application/json",
+        "Access-Control-Allow-Origin": "*"
+      }
+    })
     let receivedCart = await response.json()
     setCart(receivedCart)
   }
@@ -112,10 +122,20 @@ function AppContextProvider({children}) {
       method: 'DELETE',
       mode: "cors",
       headers: {
+        Authorization: currentUser.token,
         "Content-Type": "application/json"
       }
     })
-    let response = await fetch('http://localhost:5000/cart/')
+    let response = await fetch('http://localhost:5000/cart', {
+      method: 'GET',
+      mode: "cors",
+      headers: {
+        Authorization: currentUser.token,
+        "Content-Type": "application/json",
+        Accept: "application/json",
+        "Access-Control-Allow-Origin": "*"
+      }
+    })
     let receivedCart = await response.json()
     setCart(receivedCart)
   }
@@ -145,7 +165,7 @@ function AppContextProvider({children}) {
   }, [currentUser])
   useEffect(() => {
     async function getBnbs() {
-      let response = await fetch('http://localhost:5000/bnbs/')
+      let response = await fetch('http://localhost:5000/bnbs')
       let receivedData = await response.json()
       setBnbs(receivedData)
     }
@@ -153,12 +173,23 @@ function AppContextProvider({children}) {
   }, [])
   useEffect(() => {
     async function getCart() {
-      let response = await fetch('http://localhost:5000/cart/')
+      let response = await fetch('http://localhost:5000/cart', {
+        method: 'GET',
+        mode: "cors",
+        headers: {
+          Authorization: currentUser?.token,
+          "Content-Type": "application/json",
+          Accept: "application/json",
+          "Access-Control-Allow-Origin": "*"
+        }
+      })
       let receivedData = await response.json()
       setCart(receivedData)
     }
-    getCart()
-  }, [])
+    if (currentUser?.token) {
+      getCart()
+    }
+  }, [currentUser?.token])
   // useEffect(() => {
   //   let bnbsCollectionRef = collection(db, "bnbs")
   //   let getBnbs = async () => {
