@@ -1,8 +1,6 @@
 import classes from "./Register.module.css"
 import { useContext, useState } from "react"
 import { AppContext } from "../state/context"
-// import { auth } from "../firebase/firebase-config"
-// import { createUserWithEmailAndPassword } from "firebase/auth"
 import { useNavigate } from "react-router-dom"
 import Button from "../ui/Button"
 
@@ -21,7 +19,6 @@ function Register() {
     e.preventDefault()
     try {
       contextData.handleUserRegister(registerEmail, registerPassword)
-      //await createUserWithEmailAndPassword(auth, registerEmail, registerPassword)
       setRegisterEmail('')
       setRegisterPassword('')
       navigate("/")

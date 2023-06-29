@@ -1,7 +1,4 @@
 import { useState, useEffect, createContext } from "react"
-// import { db, auth } from "../firebase/firebase-config"
-// import { onAuthStateChanged } from "firebase/auth"
-// import { collection, onSnapshot, query, where } from "firebase/firestore"
 
 let AppContext = createContext()
 function AppContextProvider({children}) {
@@ -9,7 +6,6 @@ function AppContextProvider({children}) {
   let [cart, setCart] = useState([])
   let [bnbs, setBnbs] = useState([])
   let [isShoppingCartDisplayed, setIsShoppingCartDisplayed] = useState(false)
-  //let [userAddedToCartId, setUserAddedToCartId] = useState(null)
   async function handleUserRegister(registerEmail, registerPassword) {
     await fetch('http://localhost:5000/login/signup', {
       method: 'POST',
@@ -46,10 +42,7 @@ function AppContextProvider({children}) {
         Accept: "application/json",
         "Access-Control-Allow-Origin": "*"
       }
-      //body: JSON.stringify({})
     })
-    //let responseData = await response.json()
-    //console.log(responseData)
     localStorage.clear()
     setCurrentUser(null)
   }
@@ -83,16 +76,6 @@ function AppContextProvider({children}) {
     setBnbs(receivedData)
   }
   async function handleAddToCart(bnbId) {
-    // let bnb = await fetch(`http://localhost:5000/bnbs/${bnbId}`)
-    // let receivedData = await bnb.json()
-    // let cartObj = {
-    //   bnbTitle: receivedData.bnbTitle,
-    //   bnbCity: receivedData.bnbCity,
-    //   bnbCountry: receivedData.bnbCountry,
-    //   bnbCost: receivedData.bnbCost,
-    //   bnbImage: receivedData.bnbImage,
-    //   stars: receivedData.stars
-    // }
     await fetch('http://localhost:5000/cart', {
       method: 'POST',
       mode: "cors",
@@ -139,27 +122,12 @@ function AppContextProvider({children}) {
     let receivedCart = await response.json()
     setCart(receivedCart)
   }
-  // function handleBnbs(result) {
-  //   setBnbs(result)
-  // }
-  // function handleCart(result) {
-  //   setCart(result)
-  // }
   function handleDisplayCart() {
     setIsShoppingCartDisplayed(true)
   }
   function handleCloseCart() {
     setIsShoppingCartDisplayed(false)
   }
-  // useEffect(() => {
-  //   onAuthStateChanged(auth, currentUser => {
-  //     if(currentUser) {
-  //       setUserAddedToCartId(currentUser.uid)
-  //     } else {
-  //       setUserAddedToCartId(null)
-  //     }
-  //   })
-  // }, [])
   useEffect(() => {
     localStorage.setItem('user', JSON.stringify(currentUser))
   }, [currentUser])
@@ -190,27 +158,6 @@ function AppContextProvider({children}) {
       getCart()
     }
   }, [currentUser?.token])
-  // useEffect(() => {
-  //   let bnbsCollectionRef = collection(db, "bnbs")
-  //   let getBnbs = async () => {
-  //     onSnapshot(bnbsCollectionRef, snapshot => {
-  //       let result = snapshot.docs.map(doc => ({...doc.data(), id: doc.id}))
-  //       setBnbs(result)
-  //     })
-  //   }
-  //   getBnbs()
-  // }, [])
-  // useEffect(() => {
-  //   let cartCollectionRef = collection(db, "cart")
-  //   let q = query(cartCollectionRef, where("addedToCartBy", "==", userAddedToCartId))
-  //   let getCart = async () => {
-  //     onSnapshot(q, snapshot => {
-  //       let result = snapshot.docs.map(doc => ({...doc.data(), id: doc.id}))
-  //       setCart(result)
-  //     })
-  //   }
-  //   getCart()
-  // }, [userAddedToCartId])
   let contextValue = {
     handleUserRegister,
     handleUserLogin,
@@ -220,8 +167,6 @@ function AppContextProvider({children}) {
     handleDelete,
     handleAddToCart,
     handleRemoveFromCart,
-    // handleBnbs,
-    // handleCart,
     bnbs,
     cart,
     isShoppingCartDisplayed,

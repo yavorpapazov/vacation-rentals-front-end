@@ -1,27 +1,14 @@
 import classes from "./Navigation.module.css"
-// import { useContext, useState, useEffect } from "react"
 import { useContext } from "react"
 import { useNavigate } from "react-router-dom"
 import { AppContext } from "../state/context"
-// import { auth } from "../firebase/firebase-config"
-// import { onAuthStateChanged, signOut } from "firebase/auth"
 import { AiOutlineShoppingCart } from "react-icons/ai"
 import LinkButton from "./LinkButton"
 import Button from "./Button"
 
 function Navigation() {
   let contextData = useContext(AppContext)
-  //let [userId, setUserId] = useState(null)
   let navigate = useNavigate()
-  // useEffect(() => {
-  //   onAuthStateChanged(auth, currentUser => {
-  //     if(currentUser) {
-  //       setUserId(currentUser.uid)
-  //     } else {
-  //       setUserId(null)
-  //     }
-  //   })
-  // }, [])
   function handleLogout() {
     try {
       contextData.handleUserLogout()
@@ -30,14 +17,6 @@ function Navigation() {
     }
     navigate("/")
   }
-  // async function handleLogout() {
-  //   try {
-  //     await signOut(auth) 
-  //   } catch(err) {
-  //     console.log(err.message)
-  //   }
-  //   navigate("/")
-  // }
   return (
     <header className={classes.header}>
       <nav className={classes.navbar}>

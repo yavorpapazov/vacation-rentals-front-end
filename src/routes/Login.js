@@ -1,8 +1,6 @@
 import classes from "./Login.module.css"
 import { useContext, useState } from "react"
 import { AppContext } from "../state/context"
-// import { auth, googleProvider } from "../firebase/firebase-config"
-// import { signInWithEmailAndPassword, signInWithPopup } from "firebase/auth"
 import { useNavigate } from "react-router-dom"
 import Button from "../ui/Button"
 
@@ -21,7 +19,6 @@ function Login() {
     e.preventDefault()
     try {
       contextData.handleUserLogin(email, password)
-      //await signInWithEmailAndPassword(auth, email, password)
       setEmail('')
       setPassword('')
       navigate("/")

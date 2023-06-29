@@ -1,68 +1,12 @@
 import classes from "./Home.module.css"
 import { useContext } from "react"
 import { AppContext } from "../state/context"
-// import { db, storage, auth } from "../firebase/firebase-config"
-// import { onAuthStateChanged } from "firebase/auth"
-// import { doc, getDoc, addDoc, deleteDoc, collection, query, where, getDocs } from "firebase/firestore"
-// import { ref, deleteObject } from "firebase/storage"
 import Form from "../components/Form"
 import VacationRental from "../components/VacationRental"
 import ShoppingCart from "../components/ShoppingCart"
 
 function Home() {
   let contextData = useContext(AppContext)
-  // let [userEmail, setUserEmail] = useState(null)
-  // let [userId, setUserId] = useState(null)
-  // useEffect(() => {
-  //   const user = JSON.parse(localStorage.getItem('user'))
-  //   console.log(user)
-  // }, [])
-  // useEffect(() => {
-  //   onAuthStateChanged(auth, currentUser => {
-  //     if(currentUser) {
-  //       setUserEmail(currentUser.email)
-  //       setUserId(currentUser.uid)
-  //     } else {
-  //       setUserEmail(null)
-  //       setUserId(null)
-  //     }
-  //   })
-  // }, [])
-  // async function handleAddToCart(bnbId) {
-  //   let addDocRef = doc(db, "bnbs", bnbId)
-  //   let docSnap = await getDoc(addDocRef)
-  //   let q = query(collection(db, "cart"), where("addedToCartBy", "==", userId), where("bnbId", "==", bnbId))
-  //   let addCartDocSnap = await getDocs(q)
-  //   if(addCartDocSnap.docs[0]) {
-  //     alert('The item is already in the cart.')
-  //     return
-  //   }
-  //   if(userId === null) {
-  //     alert('Please log in to add or delete vacation rentals.')
-  //     return
-  //   }
-  //   await addDoc(collection(db, "cart"), {...docSnap.data(), addedToCartBy: userId, bnbId: bnbId})
-  // }
-  // async function handleDelete(docId) {
-  //   let q = query(collection(db, "cart"), where("addedToCartBy", "==", userId), where("bnbId", "==", docId))
-  //   let addCartDocSnap = await getDocs(q)
-  //   if(addCartDocSnap.docs[0]) {
-  //     alert('Please remove item from shopping cart.')
-  //     return
-  //   }
-  //   let deleteDocRef = doc(db, "bnbs", docId)
-  //   let docSnap = await getDoc(deleteDocRef)
-  //   if(userId === docSnap.data().userId) {
-  //     await deleteDoc(deleteDocRef)
-  //     let deleteImageRef = ref(storage, docSnap.data().fullPath)
-  //     deleteObject(deleteImageRef)
-  //   } else if(userId !== docSnap.data().userId && userId !== null) {
-  //     alert('The item has been created by a different user and can not be deleted.')
-  //     return
-  //   } else if(userId === null) {
-  //     alert('Please log in to add or delete vacation rentals.')
-  //   }
-  // }
   let resultVacationRental = contextData.bnbs.map(item => <VacationRental 
     key={item._id} 
     bnb={item} 
@@ -71,14 +15,6 @@ function Home() {
     action="Add to Cart" 
     showDelete={true}
   />)
-  // let resultVacationRental = contextData.bnbs.map(item => <VacationRental 
-  //   key={item.id} 
-  //   bnb={item} 
-  //   manageCart={handleAddToCart} 
-  //   deleteBnb={handleDelete} 
-  //   action="Add to Cart" 
-  //   showDelete={true}
-  // />)
   return (
     <div className={classes.container}>
       {contextData.isShoppingCartDisplayed && <div className={classes.backdrop} />}
