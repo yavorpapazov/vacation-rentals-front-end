@@ -31,7 +31,7 @@ function AppContextProvider({children}) {
       },
       body: JSON.stringify({email, password})
     })
-    let responseData = await response.json()
+    const responseData = await response.json()
     alert(responseData.message)
     setCurrentUser(responseData)
   }
@@ -61,8 +61,8 @@ function AppContextProvider({children}) {
       },
       body: JSON.stringify(userInputObj)
     })
-    let response = await fetch('http://localhost:5000/bnbs')
-    let receivedData = await response.json()
+    const response = await fetch('http://localhost:5000/bnbs')
+    const receivedData = await response.json()
     setBnbs(receivedData)
   }
   async function handleDelete(bnbId) {
@@ -74,8 +74,8 @@ function AppContextProvider({children}) {
         "Content-Type": "application/json"
       }
     })
-    let response = await fetch('http://localhost:5000/bnbs')
-    let receivedData = await response.json()
+    const response = await fetch('http://localhost:5000/bnbs')
+    const receivedData = await response.json()
     setBnbs(receivedData)
   }
   async function handleAddToCart(bnbId) {
@@ -90,7 +90,7 @@ function AppContextProvider({children}) {
       },
       body: JSON.stringify({ itemId: bnbId })
     })
-    let response = await fetch('http://localhost:5000/cart', {
+    const response = await fetch('http://localhost:5000/cart', {
       method: 'GET',
       mode: "cors",
       headers: {
@@ -100,7 +100,7 @@ function AppContextProvider({children}) {
         "Access-Control-Allow-Origin": "*"
       }
     })
-    let receivedCart = await response.json()
+    const receivedCart = await response.json()
     setCart(receivedCart)
   }
   async function handleRemoveFromCart(bnbId) {
@@ -112,7 +112,7 @@ function AppContextProvider({children}) {
         "Content-Type": "application/json"
       }
     })
-    let response = await fetch('http://localhost:5000/cart', {
+    const response = await fetch('http://localhost:5000/cart', {
       method: 'GET',
       mode: "cors",
       headers: {
@@ -122,7 +122,7 @@ function AppContextProvider({children}) {
         "Access-Control-Allow-Origin": "*"
       }
     })
-    let receivedCart = await response.json()
+    const receivedCart = await response.json()
     setCart(receivedCart)
   }
   function handleDisplayCart() {
@@ -136,15 +136,15 @@ function AppContextProvider({children}) {
   }, [currentUser])
   useEffect(() => {
     async function getBnbs() {
-      let response = await fetch('http://localhost:5000/bnbs')
-      let receivedData = await response.json()
+      const response = await fetch('http://localhost:5000/bnbs')
+      const receivedData = await response.json()
       setBnbs(receivedData)
     }
     getBnbs()
   }, [])
   useEffect(() => {
     async function getCart() {
-      let response = await fetch('http://localhost:5000/cart', {
+      const response = await fetch('http://localhost:5000/cart', {
         method: 'GET',
         mode: "cors",
         headers: {
@@ -154,7 +154,7 @@ function AppContextProvider({children}) {
           "Access-Control-Allow-Origin": "*"
         }
       })
-      let receivedData = await response.json()
+      const receivedData = await response.json()
       setCart(receivedData)
     }
     if (currentUser?.token) {
