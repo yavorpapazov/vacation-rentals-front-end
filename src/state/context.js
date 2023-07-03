@@ -7,7 +7,7 @@ function AppContextProvider({children}) {
   let [bnbs, setBnbs] = useState([])
   let [isShoppingCartDisplayed, setIsShoppingCartDisplayed] = useState(false)
   async function handleUserRegister(registerEmail, registerPassword) {
-    await fetch('http://localhost:5000/login/signup', {
+    const response = await fetch('http://localhost:5000/login/signup', {
       method: 'POST',
       mode: "cors",
       headers: {
@@ -17,6 +17,8 @@ function AppContextProvider({children}) {
       },
       body: JSON.stringify({email: registerEmail, password: registerPassword})
     })
+    const responseData = await response.json()
+    alert(responseData.message)
   }
   async function handleUserLogin(email, password) {
     const response = await fetch('http://localhost:5000/login', {
@@ -30,6 +32,7 @@ function AppContextProvider({children}) {
       body: JSON.stringify({email, password})
     })
     let responseData = await response.json()
+    alert(responseData.message)
     setCurrentUser(responseData)
   }
   async function handleUserLogout() {

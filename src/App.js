@@ -4,7 +4,7 @@ import Home from "./routes/Home"
 import SingleBnb from "./components/SingleBnb"
 import Login from "./routes/Login"
 import Register from "./routes/Register"
-// import ErrorPage from "./routes/ErrorPage"
+import ErrorPage from "./routes/ErrorPage"
 
 function App() {
   return (
@@ -15,7 +15,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
       </Route>
-      {/* <Route path="*" element={<ErrorPage />} /> */}
+      <Route path="*" element={<ErrorPage />} />
     </Routes>
   )
 }
