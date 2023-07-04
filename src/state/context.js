@@ -66,7 +66,7 @@ function AppContextProvider({children}) {
     setBnbs(receivedData)
   }
   async function handleDelete(bnbId) {
-    await fetch(`http://localhost:5000/bnbs/${bnbId}`, {
+    const responseDelete = await fetch(`http://localhost:5000/bnbs/${bnbId}`, {
       method: 'DELETE',
       mode: "cors",
       headers: {
@@ -74,12 +74,14 @@ function AppContextProvider({children}) {
         "Content-Type": "application/json"
       }
     })
+    const responseDeleteData = await responseDelete.json()
+    alert(responseDeleteData.message)
     const response = await fetch('http://localhost:5000/bnbs')
     const receivedData = await response.json()
     setBnbs(receivedData)
   }
   async function handleAddToCart(bnbId) {
-    await fetch('http://localhost:5000/cart', {
+    const responseCart = await fetch('http://localhost:5000/cart', {
       method: 'POST',
       mode: "cors",
       headers: {
@@ -90,6 +92,8 @@ function AppContextProvider({children}) {
       },
       body: JSON.stringify({ itemId: bnbId })
     })
+    const responseCartData = await responseCart.json()
+    alert(responseCartData.message)
     const response = await fetch('http://localhost:5000/cart', {
       method: 'GET',
       mode: "cors",
